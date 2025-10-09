@@ -1,3 +1,6 @@
+# Ejercicio elegido: Centro de gravedad
+
+``` python
 def fuelsim():
     # 1) Diccionario para la configuración
     configuracion = {
@@ -31,14 +34,14 @@ def fuelsim():
     # 3) Almacenar el historial de CG en una lista
     cg_history = [currentCG]
     
-    i = 1
+    i = 0
     while i <= flt and 0 < flt < 20:
         print(f'{mensajes["iteracion"]}{i}')
         
         menu_completo = (
             f'{mensajes["menu_opciones"]}'
             f'{mensajes["menu_info"]}{configuracion["lwrLMT"]}% y {configuracion["uprLMT"]}% \n'
-            f' CG actual: {currentCG:0.2f}\n SU SELECCION: '
+            f' CG actual: {currentCG}\n SU SELECCION: '
         )
         opcion_tanque = int(input(menu_completo))
         
@@ -49,25 +52,29 @@ def fuelsim():
         
         cg_history.append(currentCG)
         
-        if configuracion["uprLMT"] < currentCG < configuracion["lwrLMT"]:
+        if configuracion["uprLMT"] < currentCG:
             print(mensajes["alerta_estabilidad"])
         i += 1
 
     if configuracion["lwrLMT"] < currentCG < configuracion["uprLMT"] and 0 < flt < 20:
-       print(f'{mensajes["aterrizaje_seguro"]}{currentCG}')
-       for a in cg_history:
-        print(f'{mensajes["historial_cg"]}{a:0.2f}')
-        #print(f'{mensajes["historial_cg"]}{cg_history}')
+        print(f'{mensajes["aterrizaje_seguro"]}{currentCG}')
+        print(f'{mensajes["historial_cg"]}{cg_history}')
     elif currentCG < configuracion["lwrLMT"] or currentCG > configuracion["uprLMT"]:
-       print(f'{mensajes["aterrizaje_peligroso"]}{currentCG}')
-       for a in cg_history:
-        print(f'{mensajes["historial_cg"]}{a:0.2f}') 
-        #print(f'{mensajes["historial_cg"]}{cg_history}')
+        print(f'{mensajes["aterrizaje_peligroso"]}{currentCG}')
+        print(f'{mensajes["historial_cg"]}{cg_history}')
     
     if flt >= 20 or flt <= 0:
-       print(mensajes["error_vuelo"])
+           print(mensajes["error_vuelo"])
            
     return currentCG
+```
+## Mejoras sugeridas:
 
-fuelsim()
+1) Hacer un diccionario para las constantes: Agrupar todas las constantes en un diccionario llamado "constantes" para mejorar la legibilidad y facilitar futuras modificaciones.
+
+2) Usar una lista de tuplas para las opciones del menú: Crear una lista de tuplas que contenga las opciones del menú y sus respectivos cambios en el centro de gravedad. Esto permitirá iterar sobre las opciones y reducir la redundancia en el código.
+
+3) Almacenar el historial de CG en una lista: Guardar los valores del centro de gravedad en cada iteración del vuelo en una lista. Esto permitiría visualizar la evolución del CG a lo largo del tiempo
+
+4) Centralizar los mensajes en un diccionario: Agrupar todos los mensajes de texto que se muestran al usuario (alertas, menús, estados) en un diccionario.
 
